@@ -124,3 +124,29 @@ def EliminateImplication(kb):
 
 
     return new
+def replace_character_at_index(s, index, replacement):
+    return s[:index] + replacement + s[index + 1:]
+def move_quantifiers_left(formula):
+    quantified_vars = ""
+
+    # Extract quantifiers and the characters immediately following them
+    i = 0
+    while i < len(formula):
+        if formula[i] =='∃' or formula[i] =='∀' :
+            quantified_vars += formula[i]
+            i += 1
+            while not formula[i].isalpha():
+                i+=1
+            quantified_vars += formula[i]
+            formula=replace_character_at_index(formula,i,'')
+            i+=1
+        else:
+          i+=1
+    formula = formula.replace('∀', '')
+    formula = formula.replace('∃', '')
+
+     
+
+    return quantified_vars + formula
+
+print(move_quantifiers_left("∀z ∃x((ρ(y)->∀x(Q(z)->∀z(P(x)->Q(x))))"))
